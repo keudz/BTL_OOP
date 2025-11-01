@@ -1,0 +1,10 @@
+S001, Nha gia kim, Tieu thuyet, Paulo Coelho, NXB Hoi Nha Van, 2013, 20
+S002, Dac nhan tam, Ky nang song, Dale Carnegie, NXB Tong Hop TPHCM, 2016, 25
+S003, Tuoi tre dang gia bao nhieu, Ky nang song, Rosie Nguyen, NXB Tre, 2018, 30
+S004, Khong gia dinh, Tieu thuyet, Hector Malot, NXB Van Hoc, 2014, 18
+S005, Hoang tu be, Truyen ngan, Antoine de Saint-Exupery, NXB Kim Dong, 2015, 22
+S006, Tram nam co don, Tieu thuyet, Gabriel Garcia Marquez, NXB Van Hoc, 2019, 15
+S007, Toi thay hoa vang tren co xanh, Tieu thuyet, Nguyen Nhat Anh, NXB Tre, 2020, 28
+S008, Bo gia, Tieu thuyet, Mario Puzo, NXB Van Hoc, 2017, 12
+S009, Muon kiep nhan sinh, Triet hoc, Nguyen Phong, NXB Tong Hop TPHCM, 2021, 25
+S010, Ca phe cung Tony, Ky nang song, Tony Buoi Sang, NXB Tre, 2019, 20
