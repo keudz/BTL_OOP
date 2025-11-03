@@ -19,7 +19,7 @@ class ThuVien {
 	    void timSachTheoMa();
 	    void suaThongTinSach();
 	    void locSachTheoTheLoai();
-	    void thongKeSachTheoLoai();
+	    void sapXepSachTheoNamXB();
 	    void taiFileSach(bool tuDong = false);
 	    void luuFileSach(bool showMessage = true);
 	
@@ -29,6 +29,7 @@ class ThuVien {
 	    void xoaDocGiaTheoMa();
 	    void timDocGiaTheoMa();
 	    void suaThongTinDocGia();
+	    void sapXepDocGiaTheoNamSinh();
 	    void taiFileDocGia(bool tuDong = false); 
 	    void luuFileDocGia(bool showMessage = true);
 
@@ -57,17 +58,17 @@ void ThuVien::themSach() {
 }
 
 void ThuVien::hienThiTatCaSach() {
-	cout << "------------------------------------------------------------- DANH SACH SACH --------------------------------------------------\n";
-    cout << "\n+-----------------------------------------------------------------------------------------------------------------------------+\n";
-    cout << "| STT |  Ma   |               Ten               |          Tac gia          |   The loai   |       Nha XB       | Nam XB | SL |\n";
-    cout << "+-----------------------------------------------------------------------------------------------------------------------------+\n";
+	cout << "-------------------------------------------------------------- DANH SACH SACH --------------------------------------------------\n";
+    cout << "\n+-------------------------------------------------------------------------------------------------------------------------------+\n";
+    cout << "| STT |  Ma   |               Ten               |          Tac gia          |   The loai    |       Nha XB        | Nam XB | SL |\n";
+    cout << "+-------------------------------------------------------------------------------------------------------------------------------+\n";
     for(int i = 0; i < listSach.size(); i++) {
         Sach x = listSach[i];
-        printf("|  %-3d| %-5s | %-31s | %-25s |%-13s |%-19s |  %-5d | %-2d |\n", i + 1,
+        printf("|  %-3d| %-5s | %-31s | %-25s | %-13s | %-19s |  %-5d | %-2d |\n", i + 1,
 		x.getMa().c_str(), x.getTen().c_str(), x.getTG().c_str(), x.getTL().c_str(),
 		x.getNhaXB().c_str(), x.getNamXB(), x.getSL()); 
     }
-    cout << "+-----------------------------------------------------------------------------------------------------------------------------+\n";
+    cout << "+-------------------------------------------------------------------------------------------------------------------------------+\n";
 }
 
 void ThuVien::xoaSachTheoMa() {
@@ -118,17 +119,18 @@ void ThuVien::timSachTheoMa() {
 
 void ThuVien::suaThongTinSach() {
 	cin.ignore();
-    string maCanSua = nhapChuoi("\nNhap ma tai lieu can sua: ");
+    string maCanSua = nhapChuoi("Nhap ma tai lieu can sua");
     bool timThay = false;
     for(int i = 0; i < listSach.size(); ++i) {
         if(toUpper(listSach[i].getMa()) == toUpper(maCanSua)) {
             cout << "\n--- Thong tin cu ---\n" << listSach[i];
             cout << "\n---------------------\n";
             cout << "Bat dau qua trinh sua thong tin:\n";
+            cout << "con cac";
         }
 		int luaChon;
         do {
-            cout << "\n--- Sua Thong Tin Chung ---\n";
+            cout << "\n--- Sua Thong Tin ---\n";
             cout << "1. Sua Ten\n";
             cout << "2. Sua Tac gia\n";
             cout << "3. Sua The loai\n";
@@ -161,12 +163,13 @@ void ThuVien::suaThongTinSach() {
 
 void ThuVien::locSachTheoTheLoai() {
 	cin.ignore();
-    string loc = nhapChuoi("\nNhap the loai tai lieu muon loc");
+    string loc = nhapChuoi("Nhap the loai tai lieu muon loc");
     bool timThay = false;
     cout << "\n--- Ket qua loc theo the loai: " << loc << " ---\n";
     for (int i = 0; i < listSach.size(); ++i) {   
         if (toUpper(listSach[i].getTL()) == toUpper(loc)) {
             cout << listSach[i];
+            cout << "\n\n------------------------\n";
             timThay = true;
         }
     }
@@ -174,6 +177,24 @@ void ThuVien::locSachTheoTheLoai() {
         cout << "Khong co tai lieu nao thuoc the loai: " << toUpper(loc) << endl;
     }
 }
+
+void ThuVien::sapXepSachTheoNamXB() {
+    if(listSach.empty()) {
+        cout << "Danh sach rong!\n";
+        return;
+    }
+    else {
+        for(int i = 0; i < listSach.size() - 1; i++) {
+        	for(int j = i + 1; j < listSach.size(); j++) {
+        		if(listSach[i] > listSach[j]) {
+        			swap(listSach[i], listSach[j]);
+				}
+			}
+		}
+		cout << "Sap xep thanh cong!";
+    } 
+}
+
 void ThuVien::taiFileSach(bool tuDong) {
     ifstream fin("sach.txt");
     if (!fin.is_open()) {
@@ -238,16 +259,14 @@ void ThuVien::luuFileSach(bool showMessage) {
 
 
 void ThuVien::hienThiTatCaDocGia(){
-	cout << "Tong so doc gia trong thu vien: " << listDG.size() << endl;
-    cout<<"\n----------------------------------------- DANH SACH DOC GIA ----------------------------------------- \n";
-
+    cout<<"\n-------------------------------------------- DANH SACH DOC GIA -------------------------------------------- \n";
     if (listDG.empty()) {
         cout << "Hien chua co doc gia nao trong thu vien!\n";
     } 
 	else {
-        cout << "\n+----------------------------------------------------------------------------------------------------+\n";
-  	  	cout << "| STT |   Ma  |       Ten        | Ngay sinh  |   Dia chi   | So dien thoai |         Email          |\n";
-   	 	cout << "+----------------------------------------------------------------------------------------------------+\n";
+        cout << "\n+--------------------------------------------------------------------------------------------------------+\n";
+  	  	cout << "| STT |   Ma  |        Ten        |  Ngay sinh  |    Dia chi   | So dien thoai |          Email          |\n";
+   	 	cout << "+--------------------------------------------------------------------------------------------------------+\n";
         for(int i=0;i<listDG.size();i++){
         	DocGia x = listDG[i];
         	string ma = x.getMa();
@@ -256,10 +275,10 @@ void ThuVien::hienThiTatCaDocGia(){
         	string dc = x.getDiaChi();
         	string sdt = x.getSoDienThoai();
         	string em = x.getEmail();
-            printf("|  %-3d| %-5s |%-17s |%-11s |%-12s | %-10s   |%-23s |\n", i + 1,
+            printf("|  %-3d| %-5s | %-17s | %-11s | %-12s |  %-10s   | %-23s |\n", i + 1,
 			ma.c_str(), ht.c_str(), ns.c_str(), dc.c_str(), sdt.c_str(), em.c_str());
         }
-        cout << "+----------------------------------------------------------------------------------------------------+\n";
+        cout << "+--------------------------------------------------------------------------------------------------------+\n";
     }
 }
 
@@ -276,7 +295,7 @@ void ThuVien::themDocGia(){
         cin >> luaChon;
         while(true) {
             if(luaChon != "y" && luaChon != "Y" && luaChon != "n" && luaChon != "N") {
-                cout << "Lua chon khong hop le! Moi ban nhap lai: ";
+                cout << "Lua chon khong hop le! Moi ban nhap lai (Y/N): ";
                 cin >> luaChon;
             }
             else {
@@ -288,7 +307,7 @@ void ThuVien::themDocGia(){
 
 void ThuVien::xoaDocGiaTheoMa(){
 	cin.ignore();
-    string ma = nhapChuoi("\nNhap ma doc gia can xoa:");
+    string ma = nhapChuoi("\nNhap ma doc gia can xoa");
     bool timthay=false;
     for(int i=0;i<listDG.size();i++){
         if(toUpper(listDG[i].getMa()) == toUpper(ma)){
@@ -335,15 +354,14 @@ void ThuVien::timDocGiaTheoMa() {
 
 void ThuVien::suaThongTinDocGia() {
 	cin.ignore();
-    string maCanSua = nhapChuoi("\nNhap ma doc gia can sua: ");
+    string maCanSua = nhapChuoi("\nNhap ma doc gia can sua");
     bool timThay = false;
     for (int i = 0; i < listDG.size(); ++i) {
         if (toUpper(listDG[i].getMa()) == toUpper(maCanSua)) {
-            cout << "--- Tim thay doc gia. Moi ban chon thong tin de sua ---";
             cout << "\nThong tin cu:\n" << listDG[i];
         int luaChon;
         do {
-            cout << "\n--- Sua Thong Tin Chung ---\n";
+            cout << "\n\n--- Sua Thong Tin  ---\n";
             cout << "1. Sua Ten\n";
             cout << "2. Sua Ngay sinh (dd/mm/yyyy)\n";
             cout << "3. Sua Dia chi\n";
@@ -372,7 +390,22 @@ void ThuVien::suaThongTinDocGia() {
         cout << "Khong tim thay doc gia co ma: " << maCanSua << " de sua.\n";
     }
 }
-
+void ThuVien::sapXepDocGiaTheoNamSinh() {
+	if(listSach.empty()) {
+        cout << "Danh sach rong!\n";
+        return;
+    }
+    else {
+        for(int i = 0; i < listDG.size() - 1; i++) {
+        	for(int j = i + 1; j < listDG.size(); j++) {
+        		if(listDG[i] > listDG[j]) {
+        			swap(listDG[i], listDG[j]);
+				}
+			}
+		}
+		cout << "Sap xep thanh cong!";
+    } 
+}
 void ThuVien::taiFileDocGia(bool tuDong) {
     ifstream fin("docgia.txt");
     if (!fin.is_open()) {
