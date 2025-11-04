@@ -7,11 +7,6 @@ class ThuVien {
 	    vector<Sach> listSach;
 	    vector<DocGia> listDG;
 	public:
-	    ThuVien() {
-	        taiFileSach(true);
-	        taiFileDocGia(true); 
-	    }	
-	
 	    // Quan ly tai lieu
 	    void hienThiTatCaSach();
 	    void themSach();
@@ -20,8 +15,8 @@ class ThuVien {
 	    void suaThongTinSach();
 	    void locSachTheoTheLoai();
 	    void sapXepSachTheoNamXB();
-	    void taiFileSach(bool tuDong = false);
-	    void luuFileSach(bool showMessage = true);
+	    void taiFileSach();
+	    void luuFileSach();
 	
 	    // Quan ly doc gia
 	    void hienThiTatCaDocGia();
@@ -30,8 +25,8 @@ class ThuVien {
 	    void timDocGiaTheoMa();
 	    void suaThongTinDocGia();
 	    void sapXepDocGiaTheoNamSinh();
-	    void taiFileDocGia(bool tuDong = false); 
-	    void luuFileDocGia(bool showMessage = true);
+	    void taiFileDocGia(); 
+	    void luuFileDocGia();
 
 };
  
@@ -58,7 +53,7 @@ void ThuVien::themSach() {
 }
 
 void ThuVien::hienThiTatCaSach() {
-	cout << "-------------------------------------------------------------- DANH SACH SACH --------------------------------------------------\n";
+	cout << "------------------------------------------------------------ DANH SACH SACH ----------------------------------------------------\n";
     cout << "\n+-------------------------------------------------------------------------------------------------------------------------------+\n";
     cout << "| STT |  Ma   |               Ten               |          Tac gia          |   The loai    |       Nha XB        | Nam XB | SL |\n";
     cout << "+-------------------------------------------------------------------------------------------------------------------------------+\n";
@@ -195,26 +190,26 @@ void ThuVien::sapXepSachTheoNamXB() {
     } 
 }
 
-void ThuVien::taiFileSach(bool tuDong) {
-    ifstream fin("sach.txt");
-    if (!fin.is_open()) {
-        if (!tuDong) cout << "Khong the mo file!\n";
+void ThuVien::taiFileSach() {
+    string tenFile;
+    cout << "Nhap ten file can doc: ";
+    cin.ignore();
+    getline(cin, tenFile);
+    ifstream fin(tenFile);
+    if(!fin.is_open()) {
+    	cout << "File khong ton tai!";
+    	return;
+	}
+    string x;
+    
+    cout << "Ban co muon nhap file (Y/N): ";
+    getline(cin, x);
+    if (x != "y" && x != "Y") {
+        cout << "Huy thao tac nap file!\n";
+        fin.close();
         return;
     }
-    if (!tuDong && !listSach.empty()) {
-        string xn;
-        cin.ignore();
-        cout << "Canh bao: Nap file se xoa moi thay doi chua luu. Ban co chac? (Y/N): ";
-        getline(cin, xn);
-        if (xn != "y" && xn != "Y") {
-            cout << "Huy thao tac nap file.\n";
-            fin.close();
-            return;
-        }
-    }
-    listSach.clear();
     string line;
-    int dem = 0;
     while (getline(fin, line)) {
         if (line.empty()) continue;
         stringstream ss(line);
@@ -228,38 +223,29 @@ void ThuVien::taiFileSach(bool tuDong) {
         getline(ss, soLuong, ',');
         Sach s(ma, ten, theLoai, tacGia, nhaXB, stoi(soLuong), stoi(namXB));
         listSach.push_back(s);
-        dem++;
     }
     fin.close();
-    if (!tuDong) {
-        cout << "\n\nDa nhap vao thanh cong " << dem << " sach tu file sach.txt!\n";
-    }
+    cout << "\n\nDa them thanh cong sach tu file " << tenFile << "!\n";
 }
 
-void ThuVien::luuFileSach(bool showMessage) {
+void ThuVien::luuFileSach() {
     ofstream fout("sachbk.txt");
-    if(!fout.is_open()) {
-        if (showMessage) cout << "Khong the mo file sach.txt de ghi du lieu!\n";
-        return;
-    }
-    for(auto &s : listSach) {
-        fout << s.getMa() << ", "
-             << s.getTen() << ", "
-             << s.getTL() << ", "
-             << s.getTG() << ", "
-             << s.getNhaXB() << ", "
-             << s.getNamXB() << ", "
-             << s.getSL() << "\n";
+    for(int i = 0; i < listSach.size(); i++) {
+        fout << listSach[i].getMa() << ", "
+             << listSach[i].getTen() << ", "
+             << listSach[i].getTL() << ", "
+             << listSach[i].getTG() << ", "
+             << listSach[i].getNhaXB() << ", "
+             << listSach[i].getNamXB() << ", "
+             << listSach[i].getSL() << "\n";
     }
     fout.close();
-    if(showMessage) {
-        cout << "Da xuat danh sach sach ra file sach.txt thanh cong!\n";
-    }
+    cout << "Da xuat danh sach sach ra file sachbk.txt thanh cong!\n";
 }
 
 
 void ThuVien::hienThiTatCaDocGia(){
-    cout<<"\n-------------------------------------------- DANH SACH DOC GIA -------------------------------------------- \n";
+    cout<<"\n------------------------------------------- DANH SACH DOC GIA -------------------------------------------- \n";
     if (listDG.empty()) {
         cout << "Hien chua co doc gia nao trong thu vien!\n";
     } 
@@ -406,27 +392,25 @@ void ThuVien::sapXepDocGiaTheoNamSinh() {
 		cout << "Sap xep thanh cong!";
     } 
 }
-void ThuVien::taiFileDocGia(bool tuDong) {
+void ThuVien::taiFileDocGia() {
+	string tenFile;
+    cout << "Nhap ten file can doc: ";
+    cin.ignore();
+    getline(cin, tenFile);
     ifstream fin("docgia.txt");
     if (!fin.is_open()) {
-        if (!tuDong)
-            cout << "Khong the mo file docgia.txt de doc du lieu!\n";
+        cout << "File khong ton tai!\n";
         return;
     }
-    if (!tuDong && !listDG.empty()) {
-        string xn;
-        cin.ignore();
-        cout << "Canh bao: Nap file se xoa moi thay doi chua luu. Ban co chac? (Y/N): ";
-        getline(cin, xn);
-        if (xn != "y" && xn != "Y") {
-            cout << "Huy thao tac nap file.\n";
-            fin.close();
-            return;
-        }
+    string x;
+    cout << "Ban co muon nhap file (Y/N): ";
+    getline(cin, x);
+    if (x != "y" && x != "Y") {
+        cout << "Huy thao tac nap file!\n";
+        fin.close();
+        return;
     }
-    listDG.clear();
     string line;
-    int dem = 0;
     while (getline(fin, line)) {
         if (line.empty()) continue;
         stringstream ss(line);
@@ -439,36 +423,21 @@ void ThuVien::taiFileDocGia(bool tuDong) {
         getline(ss, email, ',');
         DocGia dg(ma, hoTen, ngaySinh, diaChi, soDienThoai, email);
         listDG.push_back(dg);
-        dem++;
     }
     fin.close();
-    if (!tuDong) {
-        cout << "\nDa nhap vao thanh cong " << dem << " doc gia tu file docgia.txt!\n";
-    }
+    cout << "\nDa them thanh cong doc gia tu file " << tenFile << "!\n";
 }
 
-void ThuVien::luuFileDocGia(bool showMessage) {
+void ThuVien::luuFileDocGia() {
     ofstream fout("docgiabk.txt");
-    if (!fout.is_open()) {
-        if (showMessage)
-            cout << "Khong the mo file docgia.txt de ghi du lieu!\n";
-        return;
-    }
-    for (auto &dg : listDG) {
-        fout << dg.getMa() << ", "
-             << dg.getHoTen() << ", "
-             << dg.getNgaySinh() << ", "
-             << dg.getDiaChi() << ", "
-             << dg.getSoDienThoai() << ", "
-             << dg.getEmail() << "\n";
+    for (int i = 0; i < listDG.size(); i++) {
+        fout << listDG[i].getMa() << ", "
+             << listDG[i].getHoTen() << ", "
+             << listDG[i].getNgaySinh() << ", "
+             << listDG[i].getDiaChi() << ", "
+             << listDG[i].getSoDienThoai() << ", "
+             << listDG[i].getEmail() << "\n";
     }
     fout.close();
-    if (showMessage) {
-        cout << "\nDa xuat danh sach doc gia ra file docgia.txt thanh cong!\n";
-    }
+    cout << "\nDa xuat danh sach doc gia ra file docgia.txt thanh cong!\n";
 }
-
-
-
-
-

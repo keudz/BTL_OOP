@@ -9,7 +9,7 @@ class Menu {
 			while(true) {
 				system("cls");
 				char x; char choice;
-			    cout << "\n------------- Quan ly sach --------------\n\n";
+			    cout << "\n---------------- Quan ly sach --------------\n\n";
 			    cout << "+-------------------------------------------+\n";
 			    cout << "|" << "  STT  "  << "|"  << "             Chuc nang             " << "|\n";
 			    cout << "+-------------------------------------------+\n";
